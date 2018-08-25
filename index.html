@@ -1,0 +1,75 @@
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head>
+<title>MP1 by Thomas Nelson</title>
+<meta charset="utf-8"> 
+</head>
+
+    
+<script id="shader-vs" type="x-shader/x-vertex">
+   attribute vec3 aVertexPosition;
+   attribute vec4 aVertexColor;
+
+	uniform mat4 uPMatrix;
+    uniform mat4 uMVMatrix;
+    varying vec4 vColor;
+
+    void main(void) {
+        gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);
+        vColor = aVertexColor;
+    }
+</script>
+  
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+varying vec4 vColor;
+void main(void) {
+        gl_FragColor = vColor;
+ }
+</script>
+
+<script src="gl-matrix-min.js"></script> 
+<script type="text/javascript" src="webgl-utils.js"></script>
+<script src="mp1.js"></script>   
+<body onload="startup();">
+    <canvas id="myGLCanvas" width="500" height="500"></canvas>
+    <br>
+    <input type="checkbox" name="wireframe" onchange="toggleWireframe()"> Show Wireframe
+    <input type="checkbox" name="animation" onchange="toggleAnimation()" checked> Animate
+    <br>
+    <br>
+    <b>Animation Speed</b>
+    <br>
+    Slow<input type="range" id="duration-slider" min="3000" max="7500" step="1" value="5500" onchange="changeDuration(this.valueAsNumber)">Fast
+    <br>
+    <h3>Change Interpolation Method Between Keyframes:</h3>
+    <b>Common Bezier Curves</b>
+    <br>
+    <button onclick="changebezier(0.0, 0.0, 1.0, 1.0)">Linear</button>
+    <button onclick="changebezier(0.25, 0.1, 0.25, 1.0)">Ease</button>
+    <button onclick="changebezier(0.42, 0.0, 1.0, 1.0)">Ease-In</button>
+    <button onclick="changebezier(0.42, 0.0, 0.58, 1.0)">Ease-In-Out</button>
+    <button onclick="changebezier(0.0, 0.0, 0.58, 1.0)">Ease-Out</button>
+    <br>
+    <br>
+    <b>Cubic Bezier Coordinates</b>
+    <br>
+    Point 1
+    <br>
+    X 0.0<input type="range" id="bezierp1x" min="0.0" max="1.0" step="0.01" value="0.5" onchange="changep1x(this.valueAsNumber)" oninput="changep1x(this.valueAsNumber)">1.0
+    <br>
+    Y 0.0<input type="range" id="bezierp1y" min="0.0" max="1.0" step="0.01" value="0.5" onchange="changep1y(this.valueAsNumber)" oninput="changep1y(this.valueAsNumber)">1.0
+    <br>
+    Point 2
+    <br>
+    X 0.0<input type="range" id="bezierp2x" min="0.0" max="1.0" step="0.01" value="0.5" onchange="changep2x(this.valueAsNumber)" oninput="changep2x(this.valueAsNumber)">1.0
+    <br>
+    Y 0.0<input type="range" id="bezierp2y" min="0.0" max="1.0" step="0.01" value="0.5" onchange="changep2y(this.valueAsNumber)" oninput="changep2y(this.valueAsNumber)">1.0
+
+    <br>
+    <br>
+    For more info on Bezier curves, see the <a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Wikipedia article</a> and this <a href="http://cubic-bezier.com/">helpful page</a>.
+    
+</body>
+
+</html>
